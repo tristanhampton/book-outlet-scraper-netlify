@@ -40,3 +40,16 @@ document.querySelector('button[type="submit"]').addEventListener('click', (e) =>
             document.getElementById('result').textContent = `Error: ${err.toString()}`
         });
 });
+
+document.querySelector('button.scraper').addEventListener('click', (e) => {
+	e.preventDefault();
+
+	const options = {
+		method: "POST",
+		headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({ pageToScreenshot: pageToScreenshot })
+	}
+
+	fetch('/.netlify/functions/book-outlet-scraper', options)
+
+});
