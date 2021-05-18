@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
     	statusCode: 200,
     	body: JSON.stringify({
     		message: 'Completed Scraping',
-    		content: bookTitle
+    		content: 'bookTitle'
     	})
     }
 }
