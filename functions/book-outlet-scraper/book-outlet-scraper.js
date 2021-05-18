@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
     await page.goto(url);
 
     booktitle = await page.evaluate(() => {
-    	return document.querySelector('.title > a').dataset.text;
+    	return document.querySelector('a.line-clamp-2');
     });
 
     await browser.close();
@@ -26,7 +26,7 @@ exports.handler = async (event, context) => {
     	statusCode: 200,
     	body: JSON.stringify({
     		message: 'Completed Scraping',
-    		content: 'bookTitle'
+    		content: booktitle
     	})
     }
 }
