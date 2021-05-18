@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
 
     await page.goto(url);
 
-    booktitle = await page.evaluate(() {
+    booktitle = await page.evaluate(() => {
     	return document.querySelector('.title > a').dataset.text;
     });
 
