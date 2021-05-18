@@ -17,7 +17,8 @@ exports.handler = async (event, context) => {
     await page.goto(url);
 
     booktitle = await page.evaluate(() => {
-    	return document.querySelector('a.line-clamp-2');
+    	const title = document.querySelector('a.line-clamp-2').text;
+    	return title;
     });
 
     await browser.close();
