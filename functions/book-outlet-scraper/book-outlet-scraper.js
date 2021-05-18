@@ -14,13 +14,17 @@ exports.handler = async (event, context) => {
 
     const page = await browser.newPage();
 
-    console.log('Please wait while I look up books on Book Outlet')
-
     await page.goto(url);
 
     booktitle = await page.evaluate(() {
     	return document.querySelector('.title > a').dataset.text;
     });
 
-    console.log(booktitle);
+    return {
+    	statusCode: 200,
+    	body: JSON.stringify({
+    		message: 'Completed Scraping',
+    		content: bookTitle
+    	})
+    }
 }

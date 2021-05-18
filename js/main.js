@@ -9,7 +9,7 @@ function bufferToImageUrl(buffer) {
     return imageUrl;
 }
 
-document.querySelector('button[type="submit"]').addEventListener('click', (e) => {
+document.querySelector('button.demo').addEventListener('click', (e) => {
 
     e.preventDefault();
 
@@ -51,5 +51,10 @@ document.querySelector('button.scraper').addEventListener('click', (e) => {
 	}
 
 	fetch('/.netlify/functions/book-outlet-scraper', options)
+		.then((res) => res.json())
+		.then((res) => {
+			document.querySelector('.scraper-result').innerHTML = res.content;
+		});
+
 
 });

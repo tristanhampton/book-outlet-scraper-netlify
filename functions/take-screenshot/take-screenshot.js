@@ -2,8 +2,6 @@ const chromium = require('chrome-aws-lambda');
 
 exports.handler = async (event, context) => {
 
-    console.log('inside take-screenshot.js')
-
     const pageToScreenshot = JSON.parse(event.body).pageToScreenshot;
 
     const browser = await chromium.puppeteer.launch({
