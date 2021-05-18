@@ -47,7 +47,6 @@ document.querySelector('button.scraper').addEventListener('click', (e) => {
 	const options = {
 		method: "POST",
 		headers: { "Content-Type": "application/json; charset=utf-8" },
-        body: JSON.stringify({ pageToScreenshot: pageToScreenshot })
 	}
 
 	fetch('/.netlify/functions/book-outlet-scraper', options)
