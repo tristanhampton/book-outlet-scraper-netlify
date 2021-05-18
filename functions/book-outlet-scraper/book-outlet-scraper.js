@@ -20,6 +20,8 @@ exports.handler = async (event, context) => {
     	return document.querySelector('.title > a').dataset.text;
     });
 
+    await browser.close();
+
     return {
     	statusCode: 200,
     	body: JSON.stringify({
