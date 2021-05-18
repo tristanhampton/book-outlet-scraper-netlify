@@ -1,6 +1,7 @@
 const chromium = require('chrome-aws-lambda');
 
 exports.handler = async (event, context) => {
+	console.log('is this working');
 
 	const url = 'https://bookoutlet.ca/Store/Browse?Nc=31&Nw=0&size=24&sort=popularity_0&Ns=600';
 
