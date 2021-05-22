@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
 
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] })
-        await page.waitForSelector('a.line-clamp-2')
+        // await page.waitForSelector('a.line-clamp-2')
 
         theTitle = await page.title()
 
