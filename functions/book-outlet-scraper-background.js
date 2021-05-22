@@ -1,39 +1,59 @@
 const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer-core');
 
 exports.handler = async (event, context) => {
-
+    let browser = null;
+    let theTitle = null;
 	const url = 'https://bookoutlet.ca/Store/Browse?Nc=31';
 
+    console.log('spawning chrome headless');
+    try {
+        const executablePath = await chromium.executablePath;
 
-	const browser = await chromium.puppeteer.launch({
-        executablePath: await chromium.executablePath,
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        headless: chromium.headless,
-    });
+        // setup
+        browser = await puppeteer.launch({
+          args: chromium.args,
+          executablePath: executablePath,
+          headless: chromium.headless,
+        });
 
-    const page = await browser.newPage();
-    const navigationPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
+        const page = await browser.newPage();
+        await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+        await page.waitForSelector('a.line-clamp-2');
 
-    await page.goto(url);
-    await navigationPromise;
+        theTitle = await page.title();
 
-    const results = await page.evaluate(() => {
-    	let titleNodeList = document.querySelectorAll('a.line-clamp-2');
-        const titleList = [];
-        titleNodeList.forEach(title => titleList.push(title.dataset.text));
-    	return titleList;
-    });
+        // const results = await page.evaluate(() => {
+        // 	let titleNodeList = document.querySelectorAll('a.line-clamp-2');
+        //     const titleList = [];
+        //     titleNodeList.forEach(title => titleList.push(title.dataset.text));
+        // 	return titleList;
+        // });
 
-    await browser.close();
+        console.log('done on page', theTitle);
+        
+    } catch (error) {
+        console.log('error', error);
 
-    console.log(results);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                error: error
+            });
+        }
+    } finally {
+        //--- Close browser
+        if(browser !== null) {
+            await browser.close();
+        }
+    }
+
 
     return {
     	statusCode: 200,
     	body: JSON.stringify({
     		message: 'Completed Scraping',
-    		content: results,
+    		title: theTitle,
     	})
     }
 }
