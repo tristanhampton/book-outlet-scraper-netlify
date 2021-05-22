@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer-core')
 exports.handler = async (event, context) => {
     let browser = null
     let theTitle = null
-	const url = 'https://bookoutlet.ca/Store/Browse?Nc=31&Nw=0&size=24&sort=popularity_0&Ns=600'
+	const url = 'https://tristanhampton.ca/'
 
     console.log('spawning chrome headless')
     try {
@@ -20,7 +20,8 @@ exports.handler = async (event, context) => {
         ];
         const options = {
             args,
-            headless: true,
+            headless: chromium.headless,
+            executablePath: executablePath,
             ignoreHTTPSErrors: true,
             userDataDir: './tmp'
         };
@@ -29,7 +30,7 @@ exports.handler = async (event, context) => {
 
 
         // setup
-        browser = await puppeteer.launch(options)
+        browser = await puppeteer.launch({ options })
 
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] })
