@@ -1,40 +1,28 @@
 const chromium = require('chrome-aws-lambda')
-const puppeteer = require('puppeteer-core')
+const { addExtra } = require('puppeteer-extra')
+const puppeteer = addExtra(chromium.puppeteer)
+
 
 exports.handler = async (event, context) => {
     let browser = null
     let theTitle = null
-	const url = 'https://tristanhampton.ca/'
+	const url = 'https://bookoutlet.ca/Store/Browse?Nc=31'
 
     console.log('spawning chrome headless')
     try {
         const executablePath = await chromium.executablePath
-        const args = [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-infobars',
-            '--window-position=0,0',
-            '--ignore-certifcate-errors',
-            '--ignore-certifcate-errors-spki-list',
-            '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
-        ];
-        const options = {
-            args,
-            headless: chromium.headless,
-            executablePath: executablePath,
-            ignoreHTTPSErrors: true,
-            userDataDir: './tmp'
-        };
-
-
 
 
         // setup
-        browser = await puppeteer.launch({ options })
+        browser = await puppeteer.launch({
+          args: chromium.args,
+          defaultViewport: chromium.defaultViewport,
+          executablePath: await chromium.executablePath,
+          headless: chromium.headless
+        })
 
         const page = await browser.newPage()
         await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] })
-        // await page.waitForSelector('a.line-clamp-2')
 
         theTitle = await page.title()
 
