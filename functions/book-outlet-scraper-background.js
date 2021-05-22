@@ -13,9 +13,10 @@ exports.handler = async (event, context) => {
     });
 
     const page = await browser.newPage();
+    const navigationPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
 
     await page.goto(url);
-    await page.waitForSelector('a.line-clamp-2');
+    await navigationPromise;
 
     const results = await page.evaluate(() => {
     	let titleNodeList = document.querySelectorAll('a.line-clamp-2');
@@ -30,7 +31,7 @@ exports.handler = async (event, context) => {
     	statusCode: 200,
     	body: JSON.stringify({
     		message: 'Completed Scraping',
-    		content: titleList,
+    		content: results,
     	})
     }
 }
