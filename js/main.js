@@ -49,7 +49,7 @@ document.querySelector('button.scraper').addEventListener('click', (e) => {
 		headers: { "Content-Type": "application/json; charset=utf-8" }
 	}
 
-	fetch('/.netlify/functions/book-outlet-scraper', options)
+	fetch('/.netlify/functions/book-outlet-scraper-background', options)
 		.then((res) => res.json())
 		.then((res) => {
 			document.querySelector('.scraper-result').innerHTML = res.content;
