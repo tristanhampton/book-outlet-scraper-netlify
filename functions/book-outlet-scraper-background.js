@@ -27,6 +27,8 @@ exports.handler = async (event, context) => {
 
     await browser.close();
 
+    console.log(results);
+
     return {
     	statusCode: 200,
     	body: JSON.stringify({
