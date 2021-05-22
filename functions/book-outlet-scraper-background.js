@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer-core')
 exports.handler = async (event, context) => {
     let browser = null
     let theTitle = null
-	const url = 'https://bookoutlet.ca/Store/Browse?Nc=31'
+	const url = 'https://tristanhampton.ca/'
 
     console.log('spawning chrome headless')
     try {
